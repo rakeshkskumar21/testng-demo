@@ -10,9 +10,11 @@ pipeline {
         }
     }
 
-    post {
+   post {
         always {
-            junit 'target/surefire-reports/*.xml'
+            // allowEmptyResults: true prevents the "No test report files" crash
+            // if the build failed before tests could run.
+            junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
         }
     }
 }
