@@ -1,23 +1,30 @@
 pipeline {
     agent any
-
+    
     tools {
-        jdk 'JDK21'
-        maven 'Maven3'
+        maven 'Maven_3.9' // Must match the name in Jenkins Tools
+        jdk 'Java_17'
     }
 
     stages {
-
         stage('Checkout') {
             steps {
-                echo 'Cloning repository...'
+                checkout scm
             }
         }
-
+        
         stage('Build & Test') {
             steps {
-                sh 'mvn clean test -DsuiteXmlFile=testng.xml'
+                // Run Maven test
+                sh 'mvn clean test'
             }
+        }
+    }
+
+    post {
+        always {
+            // Archive TestNG reports
+            junit '**/target/surefire-reports/*.xml'
         }
     }
 }
