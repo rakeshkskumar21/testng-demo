@@ -20,7 +20,7 @@
     
   </dependencyManagement>
 
-
+  <dependencies>
     <!-- Optionally: parameterized tests support -->
    <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
