@@ -14,12 +14,12 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>17</maven.compiler.release>
+    <aspectj.version>1.9.22</aspectj.version>  <!-- allure-->
+    <allure.version>2.29.0</allure.version>  <!-- allure-->
   </properties>
 
-  <dependencyManagement>
-    
-  </dependencyManagement>
 
+<!-- -->
   <dependencies>
     <!-- Optionally: parameterized tests support -->
    <dependency>
@@ -44,9 +44,16 @@
     <version>2.0.13</version>
     <scope>test</scope>
     </dependency>
+  <!-- allure dependencies -->
+  <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-testng</artifactId>
+      <version>${allure.version}</version>
+      <scope>test</scope>
+  </dependency>
   </dependencies>
-
-  <build>
+  
+<build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
@@ -64,6 +71,25 @@
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.4.0</version>
         </plugin>
+         <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.2.5</version>
+            <configuration>
+                <argLine>
+                    -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                </argLine>
+            </configuration>
+            <dependencies>
+                <dependency>
+                    <groupId>org.aspectj</groupId>
+                    <artifactId>aspectjweaver</artifactId>
+                    <version>${aspectj.version}</version>
+                </dependency>
+            </dependencies>
+        </plugin>
+    </plugins>
         <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
@@ -96,5 +122,5 @@
         </plugin>
       </plugins>
     </pluginManagement>
-  </build>
+</build>
 </project>
